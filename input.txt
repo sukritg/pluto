@@ -1,0 +1,80 @@
+# ------------------------------------------------------- #
+# Steel Superstructure Design (Plate Girder Section)
+# Input Units - in/kip/sec
+# [Prepared by Sukrit Ghorai]
+# ------------------------------------------------------- #
+
+$PROGRAM PLATE_GIRDER_DESIGN ;
+
+# ------------------------------------------------------- #
+# General Bridge Information : $VAR1 - 10
+# ------------------------------------------------------- #
+# Effective span length of the bridge
+$VAR1 = {1440,1440}; 
+# Number of spans
+$VAR2 = 2;
+# Girder spacing 
+$VAR3 = {117};
+# Number of sections 
+$VAR4 = 3;
+# Length of each section starting from start of the bridge in order
+# Define section break at intermediate support(/\)	|--1--|--2--|--3--/\--3--|--2--|--1--|
+$VAR5 = {1008,288,144,144,288,1008};
+# Number of girders
+$VAR6 = 4;
+# Section Property along the total span {Section 1, Section 2, .....}
+$VAR7 = {1,2,3,3,2,1};
+
+# ------------------------------------------------------- #
+# Section Properties of Girder : $VAR11 - 20
+# ------------------------------------------------------- #
+# Top Flange Plate (w x t)
+$VAR11 = {14.0,  14.0, 14.0}; 
+$VAR12 = {0.625, 1.25, 2.5 };
+# Web Plate (w x t)
+$VAR13 = {54.0, 54.0, 54.0};
+$VAR14 = {0.5,  0.5,  0.5 };
+# Bottom Flange Plate (w x t)
+$VAR15 = {14.0,  14.0,  14.0};
+$VAR16 = {0.875, 1.375, 2.75};
+
+# ------------------------------------------------------- #
+# Slab Properties : $VAR21 - 30
+# ------------------------------------------------------- #
+# Thickness of slab
+$VAR21 = {8.5, 8.5, 8.5};
+# Integral wearing surface
+$VAR22 = {0.5};
+# Haunch thickness
+$VAR23 = {3.5, 3.5, 3.5};
+# Area of steel 
+$VAR24 = {12.772, 12.772, 12.772};
+
+# ------------------------------------------------------- #
+# Material Properties : $VAR31 - 40
+# ------------------------------------------------------- #
+# Concrete grade
+$VAR31 = 4.0 ;
+# Modular ratio (use zero to automatically calculate)
+$VAR32 = 8 ;
+# Elastic modulus of concrete (use zero to automatically calculate)
+$VAR33 = 0 ;
+# Density of concrete (use zero to automatically consider 8.68e-05 kci)
+$VAR34 = 0 ;
+# Density of steel (use zero to automatically consider 2.84e-04 kci)
+$VAR35 = 0 ;
+
+# ------------------------------------------------------- #
+# Load Data : $VAR41 - 50
+# ------------------------------------------------------- #
+# Stay-in-place deck form weight (use zero to automatically consider 1.042e-04 ksi)
+$VAR41 = 0 ;
+# Misc. (cross-frames, stiffners & other misc structural steel) non-composite deck load 
+# (use zero to automatically consider 1.25e-04 k/in)
+$VAR42 = 0 ;
+# Parapet load (use zero to automatically consider 0.044 k/in)
+$VAR43 = 0 ;
+# Future wearing surface load (use zero to automatically consider 8.102e-05 kci)
+$VAR44 = 0 ;
+
+

@@ -1,0 +1,121 @@
+# depslib dependency file v1.0
+1505144875 source:c:\workahtd\sg41389\c++\pluto\main.cpp
+	<iostream>
+	"reader.h"
+	"plate_girder_design.h"
+	<fstream>
+	<stdlib.h>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\reader.h
+	<iostream>
+	<string>
+	<vector>
+	<fstream>
+	<map>
+	<iomanip>
+	<sstream>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\plate_girder_design.h
+	<map>
+	<string>
+	<vector>
+	<iostream>
+	<iomanip>
+	<cmath>
+	<algorithm>
+	<fstream>
+	"FEMEngine.h"
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\femengine.h
+	<vector>
+	"node.h"
+	"element.h"
+	"bConditions.h"
+	"load.h"
+	"matrix.h"
+	"material.h"
+	"section.h"
+	"lcombination.h"
+	"NodalResponse.h"
+	"ElementResponse.h"
+	"sectionGroup.h"
+	<iomanip>
+	"mathlib.h"
+	"writer.h"
+	<iterator>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\node.h
+	<vector>
+	<iostream>
+	<iomanip>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\element.h
+	<vector>
+	"node.h"
+	"material.h"
+	"section.h"
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\material.h
+	<vector>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\section.h
+	<vector>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\bconditions.h
+	<vector>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\load.h
+	<vector>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\matrix.h
+	<string>
+	<iostream>
+	<vector>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\lcombination.h
+	"load.h"
+
+1505159183 c:\workahtd\sg41389\c++\pluto\include\nodalresponse.h
+	<vector>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\elementresponse.h
+	<vector>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\sectiongroup.h
+	"section.h"
+	<vector>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\mathlib.h
+	<iostream>
+	<cmath>
+	"matrix.h"
+	<string>
+
+1505159182 c:\workahtd\sg41389\c++\pluto\include\writer.h
+	<string>
+	<iostream>
+	<fstream>
+	<iomanip>
+	"table.h"
+	"matrix.h"
+
+1505159183 c:\workahtd\sg41389\c++\pluto\include\table.h
+	<vector>
+	<string>
+	<iostream>
+	<sstream>
+	<iomanip>
+	<algorithm>
+
+1505159052 source:c:\workahtd\sg41389\c++\pluto\src\elementresponse.cpp
+	"ElementResponse.h"
+
+1505159052 source:c:\workahtd\sg41389\c++\pluto\src\femengine.cpp
+	"FEMEngine.h"
+
+1505159052 source:c:\workahtd\sg41389\c++\pluto\src\matrix.cpp
+	"matrix.h"
+
+1505159052 source:c:\workahtd\sg41389\c++\pluto\src\nodalresponse.cpp
+	"NodalResponse.h"
+
