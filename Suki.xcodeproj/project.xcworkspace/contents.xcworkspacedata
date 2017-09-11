@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Pluto.xcodeproj">
+      location = "self:Suki.xcodeproj">
    </FileRef>
 </Workspace>

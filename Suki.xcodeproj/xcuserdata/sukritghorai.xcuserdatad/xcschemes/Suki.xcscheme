@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "077361681D4974390079F70D"
-               BuildableName = "Pluto"
-               BlueprintName = "Pluto"
-               ReferencedContainer = "container:Pluto.xcodeproj">
+               BlueprintIdentifier = "07B67B131F4144C00049AA2C"
+               BuildableName = "Suki"
+               BlueprintName = "Suki"
+               ReferencedContainer = "container:Suki.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "077361681D4974390079F70D"
-            BuildableName = "Pluto"
-            BlueprintName = "Pluto"
-            ReferencedContainer = "container:Pluto.xcodeproj">
+            BlueprintIdentifier = "07B67B131F4144C00049AA2C"
+            BuildableName = "Suki"
+            BlueprintName = "Suki"
+            ReferencedContainer = "container:Suki.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -47,7 +47,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Sukrit/Pluto/Pluto"
+      customWorkingDirectory = "/Sukrit/Suki/Suki/Suki"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -56,12 +56,18 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "077361681D4974390079F70D"
-            BuildableName = "Pluto"
-            BlueprintName = "Pluto"
-            ReferencedContainer = "container:Pluto.xcodeproj">
+            BlueprintIdentifier = "07B67B131F4144C00049AA2C"
+            BuildableName = "Suki"
+            BlueprintName = "Suki"
+            ReferencedContainer = "container:Suki.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "/sukrit/suki/suki/suki/input.txt"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -75,10 +81,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "077361681D4974390079F70D"
-            BuildableName = "Pluto"
-            BlueprintName = "Pluto"
-            ReferencedContainer = "container:Pluto.xcodeproj">
+            BlueprintIdentifier = "07B67B131F4144C00049AA2C"
+            BuildableName = "Suki"
+            BlueprintName = "Suki"
+            ReferencedContainer = "container:Suki.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

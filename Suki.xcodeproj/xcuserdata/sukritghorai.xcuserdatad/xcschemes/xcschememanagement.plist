@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pluto.xcscheme</key>
+		<key>Suki.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>077361681D4974390079F70D</key>
+		<key>07B67B131F4144C00049AA2C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
