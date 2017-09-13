@@ -7,8 +7,8 @@ class section
     int sectionID;
     double Ax,Iz;
     std::vector<double> tf;
-    
-    
+
+
     public:
     void setProperty(std::vector<double> &data)
     {
@@ -24,8 +24,8 @@ class section
         return data;
 
     }
-    
-    
+
+
 
     int getID()
     {
@@ -36,22 +36,22 @@ class section
     {
         sectionID = id;
     }
-    
-    
-    
+
+
+
     //optional: set top flange width of element
-    void setTF(double _tf_width, double _tf_depth)
+    void setTF(std::vector<double> _values)
     {
         tf.clear();
-        tf.push_back(_tf_width);
-        tf.push_back(_tf_depth);
+        tf = _values;
+
     }
-    
+
     //optional: get top flange width of element
     std::vector<double> getTF()
     {
         return tf;
     }
-    
-    
+
+
 };

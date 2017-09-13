@@ -35,9 +35,10 @@ public:
     void start(const std::vector<node> &_nodalData,
               const std::vector<element> &_elementData,
               const std::vector<bConditions> &_bcData,
-              const std::vector<load> &_loadData,
               const std::vector<lCombination> &_loadComboData);
 
+    void run();
+    void print();
 
     void createIDMatrix();
     void createStiffMatrix();
@@ -45,6 +46,8 @@ public:
     void applyBC();
     void solve();
     void calcElmForces();
+
+    void changeElementData(const std::vector<element> &_elementData);
 
     void populateNodalResData();
     void populateElementResData();

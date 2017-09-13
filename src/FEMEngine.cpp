@@ -3,15 +3,36 @@
 void FEMEngine::  start    (const std::vector<node> &_nodalData,
                             const std::vector<element> &_elementData,
                             const std::vector<bConditions> &_bcData,
-                            const std::vector<load> &_loadData,
                             const std::vector<lCombination> &_loadComboData)
 {
     nodalData = _nodalData;
     elementData = _elementData;
     bcData = _bcData;
-    loadData = _loadData;
     loadComboData = _loadComboData;
+}
 
+
+void FEMEngine::run()
+{
+    createIDMatrix();
+    createStiffMatrix();
+    createForceMatrix();
+    applyBC();
+    solve();
+    populateNodalResData();
+    calcElmForces();
+    populateElementResData();
+}
+
+void FEMEngine::print()
+{
+    printNodeTable();
+    printElementTable();
+}
+
+void FEMEngine::changeElementData(const std::vector<element> &_elementData)
+{
+    elementData = _elementData;
 }
 
 void FEMEngine ::createIDMatrix()
@@ -635,15 +656,12 @@ for (unsigned int lc = 0; lc <loadComboData.size(); lc++)
              {
                 values.push_back(ElmForces[lc](e+1,f));
              }
-
             ER.setID(elementData[e].getID());
-
             ER.setNodes(elementData[e].getNodes()[0].getID(),elementData[e].getNodes()[1].getID());
             ER.setProperty(values);
             values.clear();
             ERVec.push_back(ER);
          }
-
         elementRData.push_back(ERVec);
         ERVec.clear();
      }

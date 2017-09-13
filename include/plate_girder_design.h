@@ -49,7 +49,7 @@ class plate_girder_design
         void calcSectionProperty();
 
         //General Bridge Information
-        double nSpans, gSpacing, nSec, nGirders;
+        double nSpans, gSpacing, nSec, nGirders,wRoad;
         std::vector<double> lEff, bEff, secLength, secDef;
 
         //Section Properties
@@ -61,7 +61,11 @@ class plate_girder_design
         std::vector<double> slab_thk, haunch_thk;
 
         //Material Properties
-        double mod_ratio, Ec, fc, Es,pc,ps,wSIP, wMisc, wPar, wFWS ;
+        double mod_ratio, Ec, fc, Es,pc,ps;
+
+        //Load Parameters
+        double wSIP, wMisc, wPar, wFWS ;
+        double fws_thk;
 
         //FE Model Components
 
@@ -78,10 +82,10 @@ class plate_girder_design
 
         std::vector<bConditions> bcData;
         std::vector<lCombination> lcData;   // Predefined 3 cases
-        std::vector<load> loadData;
+
         FEMEngine FE;
         //Start FEA
-        void startFEA();
+        void runFEA();
 
         //Report Generation
         std::ofstream out;

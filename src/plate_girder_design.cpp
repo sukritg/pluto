@@ -6,7 +6,7 @@ plate_girder_design::  plate_girder_design(std::map<std::string,std::vector<doub
     calcEffwidth();
     calcSectionProperty();
     genModel();
-    startFEA();
+    runFEA();
     report();
 }
 
@@ -33,6 +33,7 @@ void plate_girder_design::mapTokens(std::map<std::string,std::vector<double>> _t
     nGirders = _tokens["$VAR6"][0];
     for (auto i:_tokens["$VAR7"])
         secDef.push_back(i);
+    wRoad = _tokens["$VAR8"][0];
 
     // Section Properties of Girder
     for (int i = 0; i<nGirders; i++)
@@ -69,34 +70,34 @@ void plate_girder_design::mapTokens(std::map<std::string,std::vector<double>> _t
     if (_tokens["$VAR34"][0] != 0)
         pc = _tokens["$VAR34"][0];
     else
-        pc = 8.68055e-05;
+        pc = 0.150/(12*12*12);
     if (_tokens["$VAR35"][0] != 0)
         ps = _tokens["$VAR35"][0];
     else
-        ps = 2.835648e-04;
+        ps = 0.490/(12*12*12);
 
     // Loads
     // Stay-in-place deck form weight
     if (_tokens["$VAR41"][0] != 0)
         wSIP = _tokens["$VAR41"][0];
     else
-        wSIP = 1.042e-04;
+        wSIP = 0.015/(12*12);
     // Misc. non-composite dead load
     if (_tokens["$VAR42"][0] != 0)
         wMisc = _tokens["$VAR42"][0];
     else
-        wMisc = 1.25e-04;
+        wMisc = 0.015/12;
     // Parapet load
     if (_tokens["$VAR43"][0] != 0)
         wPar = _tokens["$VAR43"][0];
     else
-        wPar = 0.044;
+        wPar = 0.53/12;
     // Future wearing surface load
     if (_tokens["$VAR44"][0] != 0)
         wFWS = _tokens["$VAR44"][0];
     else
-        wFWS = 8.102e-05;
-
+        wFWS = 0.140/(12*12*12);
+    fws_thk = _tokens["$VAR45"][0];
 }
 
 void plate_girder_design::calcEffwidth()
@@ -117,6 +118,7 @@ void plate_girder_design::calcEffwidth()
         // 12.0 times average thickness of the slab + Max(web thickness,1/2 x top flange width)
         if (value > (12*(slab_thk[i]-int_ws)+std::max(w_thk[i],0.5*tf_width[i])))
             value = 12*(slab_thk[i]-int_ws)+std::max(w_thk[i],0.5*tf_width[i]);
+
         // Case - 3
         // average spacing of the adjacent beams
         if (value > gSpacing)
@@ -124,15 +126,17 @@ void plate_girder_design::calcEffwidth()
         bEff.push_back(value);
     }
 
+    for (auto i:bEff)
+        i = gSpacing;
     // Print Effective width
-    /*
+/*
     int n = 1;
     for (auto i:bEff)
     {
         std::cout << "Effective width of section - " << n << " = " << i << std::endl;
         n++;
     }
-    */
+*/
 
 }
 
@@ -434,25 +438,31 @@ void plate_girder_design::genModel()
 
 
     // Create Section Property
+    std::vector<double> values;
     section s;
     std::vector<section> sData;
     std::vector<double> data;
     id=1;
+    int k=0;
     for (unsigned int i=0; i<secProp.size(); i++)
     {
+        values.clear();
+        values.push_back(tf_width[secDef[k]-1]);
+        values.push_back(tf_thk[secDef[k]-1]);
+
+        s.setTF(values);
         s.setID(id); id++;
         data.push_back(secProp[i].A);
         data.push_back(secProp[i].I);
         s.setProperty(data);
         sData.push_back(s);
-
         data.clear();
         if (sData.size()==4)
         {
+            k++;
             sectionData.push_back(sData);
             sData.clear();
         }
-
     }
 
     // To Print Section Properties
@@ -496,7 +506,7 @@ void plate_girder_design::genModel()
     // Create Elements
     element e;
     std::vector<node> nData;
-    std::vector<double> values;
+
     id = 1;
     for (unsigned int i=0; i<secDef.size(); i++)
     {
@@ -504,8 +514,6 @@ void plate_girder_design::genModel()
         nData.push_back(nodeData[i]);
         nData.push_back(nodeData[i+1]);
         // Non-Composite Section
-      
-        sectionData[secDef[i]-1].getProperty(secPropType::GIRDERONLY).setTF([tf_thk[secDef[i]]]);
         e.setProperty(nData,materialData[0],sectionData[secDef[i]-1].getProperty(secPropType::GIRDERONLY));
         elementDataNC.push_back(e);
         // Composite Section (Short)
@@ -639,19 +647,19 @@ void plate_girder_design::genModel()
     }
 
     // Create Loads
-    
-    
+
+    std::vector<load> loadData;
     std::vector <int> el;
-    std::vector <double > values;
+    values.clear();
     double intensity,dist;
     int lcID = 1;
     int iD = 1;
-    
-    for (int i=0; i<3; i++)
+
+    for (int i=1; i<=5; i++)
     {
         switch (i)
         {
-            case 0:  // Dead Load of steel girder
+            case 1:  // Dead Load of steel girder
             {
                 for (unsigned int e=0; e<elementDataNC.size(); e++)
                 {
@@ -664,7 +672,7 @@ void plate_girder_design::genModel()
                     iD++;
                     el.clear();
                     values.clear();
-                    
+
                 }
                 // Load combination - 1
                 lCombination lc(lcID);
@@ -673,15 +681,19 @@ void plate_girder_design::genModel()
                 lcID++;
                 loadData.clear();
                 break;
-                
+
             }
-            case 1: // Concrete deck
+
+            case 2: // Concrete deck
             {
-                for (unsigned int e=0; e<elementDataNC.size(); e++)
+               for (unsigned int e=0; e<elementDataNC.size(); e++)
                 {
+                    std::cout << "concrete unit weight = " << pc << std::endl;
+                    std::cout << "width = " << elementDataNC[e].getSection().getTF()[0] <<std::endl;
+                    std::cout << "depth = " << elementDataNC[e].getSection().getTF()[1] <<std::endl;
+                    std::cout << "gspacing = " << gSpacing << std::endl;
                     el.push_back(elementDataNC[e].getID());
-                    intensity = pc * (8.5 * gSpacing  + (3.5 - elementDataNC[e].getSection().getTF()[1]) *  elementDataNC[e].getSection().getTF()[0]) * 12 * -1;
-                    //intensity = 1.036/12;
+                    intensity = pc * (8.5 * gSpacing  + (haunch_thk[0] - elementDataNC[e].getSection().getTF()[1]) *  (elementDataNC[e].getSection().getTF()[0]))  * -1;
                     load loading(iD,loadType::EU_Fy,el);
                     values.push_back(intensity);
                     loading.setProperty(values);
@@ -689,7 +701,7 @@ void plate_girder_design::genModel()
                     iD++;
                     el.clear();
                     values.clear();
-                    
+
                 }
                 // Load combination - 2
                 lCombination lc(lcID);
@@ -699,30 +711,82 @@ void plate_girder_design::genModel()
                 loadData.clear();
                 break;
             }
-                
-                /*
-                
-                // Stay in place deck
-                for (unsigned int e=1; e<elementData.size()-1; e++)
-                    el.push_back(elementData[e].getID());
-                intensity = (WT_SIP/12)*-1;
-                load loading2(iD,loadType::EU_Fy,el);
-                values.push_back(intensity);
-                loading2.setProperty(values);
-                loadData.push_back(loading2);
-                iD++;
-                _lData.push_back(loading2);
-                el.clear();
-                values.clear();
-                */
-                
-                
-            
+
+            case 3: // Misc Load
+            {
+               for (unsigned int e=0; e<elementDataNC.size(); e++)
+                {
+                    el.push_back(elementDataNC[e].getID());
+                    intensity = (wSIP*gSpacing+wMisc);
+                    load loading(iD,loadType::EU_Fy,el);
+                    values.push_back(intensity);
+                    loading.setProperty(values);
+                    loadData.push_back(loading);
+                    iD++;
+                    el.clear();
+                    values.clear();
+
+                }
+                // Load combination - 3
+                lCombination lc(lcID);
+                lc.setProperty(loadData);
+                lcData.push_back(lc);
+                lcID++;
+                loadData.clear();
+                break;
+            }
+
+            case 4: // Parapet Load
+            {
+               for (unsigned int e=0; e<elementDataCL.size(); e++)
+                {
+                    el.push_back(elementDataCL[e].getID());
+                    intensity = wPar*2/nGirders;
+                    load loading(iD,loadType::EU_Fy,el);
+                    values.push_back(intensity);
+                    loading.setProperty(values);
+                    loadData.push_back(loading);
+                    iD++;
+                    el.clear();
+                    values.clear();
+
+                }
+                // Load combination - 4
+                lCombination lc(lcID);
+                lc.setProperty(loadData);
+                lcData.push_back(lc);
+                lcID++;
+                loadData.clear();
+                break;
+            }
+
+            case 5: // Future Wearing Surface
+            {
+               for (unsigned int e=0; e<elementDataCL.size(); e++)
+                {
+                    el.push_back(elementDataCL[e].getID());
+                    intensity = wFWS*fws_thk*wRoad/nGirders;
+                    load loading(iD,loadType::EU_Fy,el);
+                    values.push_back(intensity);
+                    loading.setProperty(values);
+                    loadData.push_back(loading);
+                    iD++;
+                    el.clear();
+                    values.clear();
+                }
+                // Load combination - 5
+                lCombination lc(lcID);
+                lc.setProperty(loadData);
+                lcData.push_back(lc);
+                lcID++;
+                loadData.clear();
+                break;
+            }
+
+
         }
 }
 }
-
-
 
 int plate_girder_design::findSection(double distance)
 {
@@ -736,7 +800,6 @@ int plate_girder_design::findSection(double distance)
    int id=0;
     for (auto i:secLength)
     {
-
         if (distance >= length && distance <= length+i)
             return id;
         else
@@ -761,40 +824,31 @@ int plate_girder_design::findNode(double distance)
 
 
 
-void plate_girder_design::startFEA()
+void plate_girder_design::runFEA()
 {
     FE.start  (nodeData,
-               elementDataNC,
+               elementDataCL,
                bcData,
-               loadData,
                lcData);
-    
-    FE.createIDMatrix();
-    FE.createStiffMatrix();
-    FE.createForceMatrix();
-    FE.applyBC();
-    FE.solve();
-    FE.populateNodalResData();
-    FE.printNodeTable();
-    FE.calcElmForces();
-    FE.populateElementResData();
-    FE.printElementTable();
-    
-    int lc = 1;
+
+    FE.run();
+    FE.print();
+
+    int lc = 4;
     int elementID = 4;
     double distance = 0.0;
-    
+
     std::cout << "====================================================================="<<std::endl;
     std::cout << "Axial force = " << FE.sectionForce(lc,elementID,distance,SFType::AXIAL) << std::endl;
     std::cout << "====================================================================="<<std::endl;
-    
+
     std::cout << "====================================================================="<<std::endl;
     std::cout << "Shear force = " << FE.sectionForce(lc,elementID,distance,SFType::SHEAR) << std::endl;
     std::cout << "====================================================================="<<std::endl;
-    
+
     std::cout << "====================================================================="<<std::endl;
-    std::cout << "Bending Moment = " << FE.sectionForce(lc,elementID,distance,SFType::MOMENT) << std::endl;
+    std::cout << "Bending Moment = " << FE.sectionForce(lc,elementID,distance,SFType::MOMENT)/12 << std::endl;
     std::cout << "====================================================================="<<std::endl;
-    
+
 
 }

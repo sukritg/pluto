@@ -138,7 +138,7 @@ void plate_girder_design::repSecProp()
                     {
                         out << "Slab"
                         << " &" << bEff[num]
-                        << " &" << slab_thk[num]
+                        << " &" << slab_thk[num] - int_ws
                         << " &" << j.A
                         << " &" << j.y
                         << " &" << j.Ay

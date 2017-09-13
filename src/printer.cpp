@@ -4,7 +4,7 @@ void FEMEngine::printNodeTable()
 {
     double tol = 1e-6;
    // Write output to file
-    writer output("output.txt");
+    writer output("nodeTable.txt");
 
 // Write Input Table
     // Table Template
@@ -70,7 +70,7 @@ void FEMEngine::printElementTable()
 {
 double tol = 1e-6;
 // Write output to file
-writer output("output.txt");
+writer output("elementTable.txt");
 
 // Write Input Table
 // Table Template
@@ -150,7 +150,7 @@ for (unsigned int i=0; i< loadComboData.size(); i++)
   {
     double tol = 1e-6;
     // Write output to file
-    writer output("output.txt");
+    writer output("sectionForces.txt");
     for (unsigned int lc = 0; lc < _lc.size(); lc++)
     {
 

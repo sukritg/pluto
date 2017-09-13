@@ -45,10 +45,5 @@ std::map<std::string,std::vector<double>> tokens;
         std::cout << "No valid module found" << std::endl;
    std::cout << "==========================================================="<< std::endl;
 
-
-//std::ofstream out("\\output.txt");
-//out << " Hi Sukrit!" << std::endl;
-//out.close();
-        //system("C:\\Users\\sg41389\\Downloads\\texmfs\\install\\miktex\\bin\\pdflatex.exe C:\\Users\\sg41389\\Documents\\test.tex");
-        return 0;
+    return 0;
 }
