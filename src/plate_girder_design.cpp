@@ -126,10 +126,10 @@ void plate_girder_design::calcEffwidth()
         bEff.push_back(value);
     }
 
-    for (auto i:bEff)
-        i = gSpacing;
-    // Print Effective width
-/*
+    //for (auto i:bEff)
+    //    i = gSpacing;
+ /*   // Print Effective width
+
     int n = 1;
     for (auto i:bEff)
     {
@@ -651,7 +651,7 @@ void plate_girder_design::genModel()
     std::vector<load> loadData;
     std::vector <int> el;
     values.clear();
-    double intensity,dist;
+    double intensity;
     int lcID = 1;
     int iD = 1;
 
@@ -688,10 +688,6 @@ void plate_girder_design::genModel()
             {
                for (unsigned int e=0; e<elementDataNC.size(); e++)
                 {
-                    std::cout << "concrete unit weight = " << pc << std::endl;
-                    std::cout << "width = " << elementDataNC[e].getSection().getTF()[0] <<std::endl;
-                    std::cout << "depth = " << elementDataNC[e].getSection().getTF()[1] <<std::endl;
-                    std::cout << "gspacing = " << gSpacing << std::endl;
                     el.push_back(elementDataNC[e].getID());
                     intensity = pc * (8.5 * gSpacing  + (haunch_thk[0] - elementDataNC[e].getSection().getTF()[1]) *  (elementDataNC[e].getSection().getTF()[0]))  * -1;
                     load loading(iD,loadType::EU_Fy,el);
@@ -832,23 +828,20 @@ void plate_girder_design::runFEA()
                lcData);
 
     FE.run();
-    FE.print();
 
-    int lc = 4;
-    int elementID = 4;
-    double distance = 0.0;
+    genILD();
 
-    std::cout << "====================================================================="<<std::endl;
-    std::cout << "Axial force = " << FE.sectionForce(lc,elementID,distance,SFType::AXIAL) << std::endl;
-    std::cout << "====================================================================="<<std::endl;
+   // FE.print();
 
-    std::cout << "====================================================================="<<std::endl;
-    std::cout << "Shear force = " << FE.sectionForce(lc,elementID,distance,SFType::SHEAR) << std::endl;
-    std::cout << "====================================================================="<<std::endl;
+}
 
-    std::cout << "====================================================================="<<std::endl;
-    std::cout << "Bending Moment = " << FE.sectionForce(lc,elementID,distance,SFType::MOMENT)/12 << std::endl;
-    std::cout << "====================================================================="<<std::endl;
+void plate_girder_design::genILD()
+{
+    std::vector<int> elementILD {1,2,3,4,5,6};
 
-
+    infLine ILD(   nodeData,
+                   elementDataNC,
+                   bcData,
+                   elementILD);
+ILD.run();
 }

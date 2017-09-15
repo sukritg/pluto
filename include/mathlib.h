@@ -321,5 +321,28 @@ matrix luSolve(matrix &A, matrix &B)
      }
     return x;
 }
+
+
+// Norm matrix by column vectors
+void normByColumns(matrix &A)
+{
+    double norm = 0;
+    for(unsigned int i=1; i<=A.colSize();i++)
+    {
+        for(unsigned int j=1; j<=A.rowSize();j++)
+        {
+            norm += A(j,i)*A(j,i);
+        }
+        norm = std::sqrt(norm);
+        for (unsigned int j=1; j<=A.rowSize();j++)
+        {
+            A(j,i) = A(j,i)/norm;
+        }
+        norm = 0;
+    }
+}
+
+
+
 };
 #endif // MATHLIB_H

@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <fstream>
 #include "FEMEngine.h"
-
+#include "infLine.h"
 
 
 struct shape
@@ -84,8 +84,12 @@ class plate_girder_design
         std::vector<lCombination> lcData;   // Predefined 3 cases
 
         FEMEngine FE;
+
         //Start FEA
         void runFEA();
+
+        //Influence Line Module
+        void genILD();
 
         //Report Generation
         std::ofstream out;

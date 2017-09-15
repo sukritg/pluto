@@ -51,8 +51,10 @@ public:
 
     void populateNodalResData();
     void populateElementResData();
-    double sectionForce(int _lc, int _elementID, double _dist, SFType _type);
+    double sectionForce(unsigned int _lc, unsigned int _elementID, double _dist, SFType _type);
 
+    std::vector<std::vector<NodalResponse>> getNodalResponse();
+    std::vector<std::vector<ElementResponse>> getElementResponse();
 
     void printNodeTable();
     void printElementTable();

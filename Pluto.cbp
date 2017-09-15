@@ -41,6 +41,7 @@
 		<Unit filename="include/NodalResponse.h" />
 		<Unit filename="include/bConditions.h" />
 		<Unit filename="include/element.h" />
+		<Unit filename="include/infLine.h" />
 		<Unit filename="include/lcombination.h" />
 		<Unit filename="include/load.h" />
 		<Unit filename="include/material.h" />
@@ -59,6 +60,7 @@
 		<Unit filename="src/ElementResponse.cpp" />
 		<Unit filename="src/FEMEngine.cpp" />
 		<Unit filename="src/NodalResponse.cpp" />
+		<Unit filename="src/infLine.cpp" />
 		<Unit filename="src/matrix.cpp" />
 		<Unit filename="src/plate_girder_design.cpp" />
 		<Unit filename="src/plate_girder_report.cpp" />

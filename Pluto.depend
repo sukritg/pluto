@@ -15,7 +15,7 @@
 	<iomanip>
 	<sstream>
 
-1505251356 c:\workahtd\sg41389\c++\pluto\include\plate_girder_design.h
+1505488658 c:\workahtd\sg41389\c++\pluto\include\plate_girder_design.h
 	<map>
 	<string>
 	<vector>
@@ -25,8 +25,9 @@
 	<algorithm>
 	<fstream>
 	"FEMEngine.h"
+	"infLine.h"
 
-1505244713 c:\workahtd\sg41389\c++\pluto\include\femengine.h
+1505502773 c:\workahtd\sg41389\c++\pluto\include\femengine.h
 	<vector>
 	"node.h"
 	"element.h"
@@ -64,7 +65,7 @@
 1505159182 c:\workahtd\sg41389\c++\pluto\include\bconditions.h
 	<vector>
 
-1505159182 c:\workahtd\sg41389\c++\pluto\include\load.h
+1505486716 c:\workahtd\sg41389\c++\pluto\include\load.h
 	<vector>
 
 1505159182 c:\workahtd\sg41389\c++\pluto\include\matrix.h
@@ -81,11 +82,11 @@
 1505159182 c:\workahtd\sg41389\c++\pluto\include\elementresponse.h
 	<vector>
 
-1505159182 c:\workahtd\sg41389\c++\pluto\include\sectiongroup.h
+1505502904 c:\workahtd\sg41389\c++\pluto\include\sectiongroup.h
 	"section.h"
 	<vector>
 
-1505159182 c:\workahtd\sg41389\c++\pluto\include\mathlib.h
+1505508831 c:\workahtd\sg41389\c++\pluto\include\mathlib.h
 	<iostream>
 	<cmath>
 	"matrix.h"
@@ -110,7 +111,7 @@
 1505159052 source:c:\workahtd\sg41389\c++\pluto\src\elementresponse.cpp
 	"ElementResponse.h"
 
-1505244713 source:c:\workahtd\sg41389\c++\pluto\src\femengine.cpp
+1505502709 source:c:\workahtd\sg41389\c++\pluto\src\femengine.cpp
 	"FEMEngine.h"
 
 1505159052 source:c:\workahtd\sg41389\c++\pluto\src\matrix.cpp
@@ -119,7 +120,7 @@
 1505159052 source:c:\workahtd\sg41389\c++\pluto\src\nodalresponse.cpp
 	"NodalResponse.h"
 
-1505252103 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_design.cpp
+1505503235 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_design.cpp
 	"plate_girder_design.h"
 
 1505237069 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_report.cpp
@@ -137,4 +138,11 @@
 
 1505242210 source:c:\workahtd\sg41389\c++\pluto\src\printer.cpp
 	"FEMEngine.h"
+
+1505508661 c:\workahtd\sg41389\c++\pluto\include\infline.h
+	"FEMEngine.h"
+	"matrix.h"
+
+1505510072 source:c:\workahtd\sg41389\c++\pluto\src\infline.cpp
+	"infLine.h"
 

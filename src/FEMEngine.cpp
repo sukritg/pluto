@@ -647,7 +647,6 @@ for (unsigned int lc = 0; lc <loadComboData.size(); lc++)
      ElementResponse ER;
      std::vector<ElementResponse> ERVec;
      std::vector<double> values;
-     std::cout << "Elm forces size = " << ElmForces.size() << std::endl;
      for (unsigned int lc = 0; lc < ElmForces.size(); lc++)
      {
          for (unsigned int e = 0; e < elementData.size(); e++)
@@ -700,7 +699,7 @@ bool FEMEngine::searchElm_in_Load(load &_load, int _elmID)
     return false;
 }
 
-double FEMEngine::sectionForce(int _lc, int _elementID, double _dist, SFType _type)
+double FEMEngine::sectionForce(unsigned int _lc,unsigned int _elementID, double _dist, SFType _type)
 {
     //Check
     if (_lc < 1 || _lc > loadComboData.size())
@@ -716,8 +715,6 @@ double FEMEngine::sectionForce(int _lc, int _elementID, double _dist, SFType _ty
     double FEM = elementRData[_lc-1][_elementID-1].getProperty()[2];
 
         int i = _elementID-1;
-        int SN = elementData[i].getNodes()[0].getID();
-        int EN = elementData[i].getNodes()[1].getID();
         double le = std::sqrt(std::pow(elementData[i].getNodes()[1].getProperty()[0] - elementData[i].getNodes()[0].getProperty()[0],2)
                     + std::pow(elementData[i].getNodes()[1].getProperty()[1] - elementData[i].getNodes()[0].getProperty()[1],2));
     double axial = 0;
@@ -786,3 +783,13 @@ double FEMEngine::sectionForce(int _lc, int _elementID, double _dist, SFType _ty
 
     return 0;
 }
+
+
+std::vector<std::vector<NodalResponse>> FEMEngine::getNodalResponse()
+{
+    return nodalRData;
+}
+    std::vector<std::vector<ElementResponse>> FEMEngine::getElementResponse()
+    {
+        return elementRData;
+    }
