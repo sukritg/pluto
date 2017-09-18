@@ -59,8 +59,9 @@
 1505159182 c:\workahtd\sg41389\c++\pluto\include\material.h
 	<vector>
 
-1505226483 c:\workahtd\sg41389\c++\pluto\include\section.h
+1505770094 c:\workahtd\sg41389\c++\pluto\include\section.h
 	<vector>
+	<cmath>
 
 1505159182 c:\workahtd\sg41389\c++\pluto\include\bconditions.h
 	<vector>
@@ -120,7 +121,7 @@
 1505159052 source:c:\workahtd\sg41389\c++\pluto\src\nodalresponse.cpp
 	"NodalResponse.h"
 
-1505503235 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_design.cpp
+1505765370 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_design.cpp
 	"plate_girder_design.h"
 
 1505237069 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_report.cpp
@@ -139,10 +140,10 @@
 1505242210 source:c:\workahtd\sg41389\c++\pluto\src\printer.cpp
 	"FEMEngine.h"
 
-1505508661 c:\workahtd\sg41389\c++\pluto\include\infline.h
+1505752684 c:\workahtd\sg41389\c++\pluto\include\infline.h
 	"FEMEngine.h"
 	"matrix.h"
 
-1505510072 source:c:\workahtd\sg41389\c++\pluto\src\infline.cpp
+1505769863 source:c:\workahtd\sg41389\c++\pluto\src\infline.cpp
 	"infLine.h"
 

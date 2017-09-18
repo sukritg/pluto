@@ -384,8 +384,7 @@ void plate_girder_design::calcSectionProperty()
 
     std::cout << "Section Properties Calculated" << std::endl;
 
-
-// To Print
+    // To Print
     for (auto k:secProp)
     {
         for (auto i:k.data)
@@ -506,7 +505,6 @@ void plate_girder_design::genModel()
     // Create Elements
     element e;
     std::vector<node> nData;
-
     id = 1;
     for (unsigned int i=0; i<secDef.size(); i++)
     {

@@ -5,12 +5,11 @@
 #include "FEMEngine.h"
 #include "matrix.h"
 
-struct responseILD
+struct HL93
 {
-    std::vector<double> shear;
-    std::vector<double> moment;
+    double w_1 = 32.0, w_2 = 32.0, w_3 = 8.0;
+    double d_1 = 0.0, d_2 = 14.0, d_3 = 14.0;
 };
-
 
 class infLine
 {

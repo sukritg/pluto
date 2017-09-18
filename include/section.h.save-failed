@@ -1,0 +1,230 @@
+#pragma once
+#include <vector>
+enum class sectionType
+{
+    PLATEGIRDER,
+    GENERAL
+
+};
+enum class stage
+{
+    NONCOMPOSITE,
+    COMPOSITE_LONG,
+    COMPOSITE_SHORT,
+    COMPOSITE_REINFORCEMENT
+
+};
+
+
+struct sectionTable
+{
+    double w_tf,w_web,w_bf,w_slab;
+    double d_tf,d_web,d_bf,d_slab;
+    double A_tf,A_web,A_bf,A_slab,A_RF;
+    double y_tf,y_web,y_bf,y_slab;
+    double Ay_tf,Ay_web,Ay_bf,Ay_slab,Ay_RF;
+    double Io_tf,Io_web,Io_bf,Io_slab;
+    double I_tf,I_web,I_bf,I_slab;
+    double m;
+    double Ay,A,y,Io,I;
+
+};
+
+class section
+{
+    private:
+
+    // General Parameters
+    int sectionID;
+    double A,I,y;
+    sectionType xType;
+
+    // Plate Girder Section
+    double w_tf,w_web,w_bf,w_slab;
+    double d_tf,d_web,d_bf,d_slab;
+    double A_tf,A_web,A_bf,A_slab,A_RF;
+    double y_tf,y_web,y_bf,y_slab;
+    double Ay_tf,Ay_web,Ay_bf,Ay_slab,Ay_RF;
+    double Io_tf,Io_web,Io_bf,Io_slab;
+    double I_tf,I_web,I_bf,I_slab;
+    double m;
+
+
+    //double A_NC,A_CLONG,A_CSHORT,A_REINF;
+    //double I_NC,I_CLONG,I_CSHORT,I_REINF;
+
+
+
+    std::vector<double> tf;
+
+    public:
+
+    section()
+    {
+        xType = sectionType::GENERAL;
+    }
+
+    void setType(sectionType _xType)
+    {
+        xType = _xType;
+    }
+
+    sectionType getType()
+    {
+        return xType;
+    }
+
+    void setProperty(std::vector<double> &data)
+    {
+        switch (xType)
+        {
+        case sectionType::GENERAL :
+            {
+                A = data[0];
+                I = data[1];
+                break;
+            }
+        case sectionType::PLATEGIRDER :
+            {
+            //Dimensions
+            w_tf = data[0];
+            w_web = data[1];
+            w_bf = data[2];
+            w_slab = data[3];
+            d_tf = data[4];
+            d_web = data[5];
+            d_bf = data[6];
+            d_slab = data[7];
+            A_RF = data[8];
+
+            //Modular ratio
+            if (data.size()==10)
+                m = data[9];
+            else
+                m = 8;
+                break;
+            }
+        }
+    }
+
+    std::vector<double> getProperty()
+    {
+        std::vector<double> data;
+        data.push_back(A);
+        data.push_back(I);
+        return data;
+    }
+
+    int getID()
+    {
+        return sectionID;
+    }
+
+    void setID(int id)
+    {
+        sectionID = id;
+    }
+
+
+
+    //optional: set top flange width of element
+    void setTF(std::vector<double> _values)
+    {
+        tf.clear();
+        tf = _values;
+
+    }
+
+    //optional: get top flange width of element
+    std::vector<double> getTF()
+    {
+        return tf;
+    }
+
+    //Calculate section properties
+    void calcPlateGirderProperties(stage _phase)
+    {
+
+        //Area of each component
+        A_tf = w_tf*d_tf;
+        A_web = w_web*d_web;
+        A_bf = w_bf*d_bf;
+
+        if (_phase == stage::NONCOMPOSITE)
+            A_slab = 0;
+        else if (_phase == stage::COMPOSITE_SHORT)
+            A_slab = w_slab*d_slab/m;
+        else if (_phase == stage::COMPOSITE_LONG)
+            A_slab = w_slab*d_slab/(3*m);
+        else
+            A_slab = 0;
+
+        if (_phase != stage::COMPOSITE_REINFORCEMENT)
+            A_RF = 0;
+
+
+        //CG of each component
+        y_tf = d_tf/2;
+        y_web = w_web/2;
+        y_bf = d_bf;
+        y_slab = d_slab/2;
+
+        //A*y of each component
+        Ay_tf = A_tf*y_tf;
+        Ay_web = A_web*y_web;
+        Ay_bf = A_bf*y_bf;
+        Ay_slab = A_slab*y_slab;
+
+        //Moment of Inertia of each component
+        Io_tf = w_tf*d_tf*d_tf*d_tf/12;
+        Io_web = d_web*w_web*w_web*w_web/12;
+        Io_bf = w_bf*d_bf*d_bf*d_bf/12;
+        Io_slab = w_slab*d_slab*d_slab*d_slab/12;
+
+
+
+    }
+
+
+
+
+
+    std::vector<double> getProperty(stage _phase)
+    {
+        std::vector<double> values;
+
+        switch (_xtype)
+        {
+            case sectionType::PLATEGIRDER :
+            {
+                switch (_phase)
+                {
+                case _phase::NONCOMPOSITE :
+                    {
+                        calcPlateGirderProperties(_phase);
+                        values.clear();
+                        values.push_back(A);
+                        values.push_back(I);
+                        values.push_back(y);
+
+                        break;
+                    }
+                case _phase::COMPOSITE_SHORT :
+                    {
+                        break;
+                    }
+                case _phase::COMPOSITE_LONG :
+                    {
+                        break;
+                    }
+                case _phase::COMPOSITE_REINFORCEMENT :
+                    {
+                        break;
+                    }
+                }
+
+            }
+        }
+    }
+
+};

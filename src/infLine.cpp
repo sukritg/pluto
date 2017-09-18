@@ -10,7 +10,7 @@ infLine::infLine(std::vector<node> _nodeData,
     bcData = _bcData;
 
     elementILD = _elementILD;
-    parts = 10;
+    parts = 20;
 
 }
 
@@ -82,7 +82,7 @@ void infLine::run()
     }
     std::vector<double> gDist;
     distance = 0;
-    for (int e=0; e<elementData.size();e++)
+    for (unsigned int e=0; e<elementData.size();e++)
     {
         for (double p=0; p<=parts; p++)
         {
@@ -100,13 +100,13 @@ void infLine::run()
     matToolBox.normByColumns(infM);
 
     writer outILD("output_ILD.txt");
-    int lc = 55;
-    std::cout << "Distance = " <<
-    lcData[lc-1].getProperty()[0].get
+    int lc = 100;
+    std::cout << "Distance = " << lcData[lc-1].getProperty()[0].getElements()[0] << "  " <<
+    lcData[lc-1].getProperty()[0].getValues()[0]<< "  "<<
     lcData[lc-1].getProperty()[0].getValues()[1]<< std::endl;
-    for (int i=1; i<=infV.rowSize();i++)
+    for (unsigned int i=1; i<=infV.rowSize();i++)
     {
-        outILD.writeText (toString(gDist[i-1]) + "\t" + toString(infM(i,lc)));
+        outILD.writeText (toString(gDist[i-1]) + "\t" + toString(infV(i,lc)));
 
     }
     outILD.close();
