@@ -79,6 +79,7 @@ class plate_girder_design
         std::vector<material> materialData;
         std::vector<sectionGroup> sectionData;
 
+        std::vector<section> sectionData_;
 
         std::vector<bConditions> bcData;
         std::vector<lCombination> lcData;   // Predefined 3 cases

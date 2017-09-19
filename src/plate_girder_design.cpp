@@ -143,6 +143,44 @@ void plate_girder_design::calcEffwidth()
 
 void plate_girder_design::calcSectionProperty()
 {
+
+    std::vector<double> dataVector;
+    section xSection;
+    int iD = 1;
+
+    for (int i; i<nSec; i++)
+    {
+        dataVector.clear();
+        dataVector.push_back(tf_width[i]);
+        dataVector.push_back(w_width[i]);
+        dataVector.push_back(bf_width[i]);
+        dataVector.push_back(bEff[i]);
+        dataVector.push_back(tf_thk[i]);
+        dataVector.push_back(w_thk[i]);
+        dataVector.push_back(bf_thk[i]);
+        dataVector.push_back(slab_thk[i]);
+        dataVector.push_back(longRF);
+        dataVector.push_back(haunch_thk[i]);
+        dataVector.push_back(mod_ratio);
+
+        xSection.setID(iD);
+        iD++;
+        xSection.setType(sectionType::PLATEGIRDER);
+        xSection.setProperty(dataVector);
+        sectionData_.push_back(xSection);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     std::vector<shape> values;
     sect secVal;
     shape row;

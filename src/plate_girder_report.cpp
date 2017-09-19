@@ -56,6 +56,93 @@ void plate_girder_design::createPDF()
 
 void plate_girder_design::repSecProp()
 {
+
+    for (auto i:sectionData_)
+    {
+        out << "\\begin{table}[H]" <<std::endl;
+        out << "\\centering" <<std::endl;
+        out << "\\caption{Girder Only}";
+        out << "\\begin{tabular}{|c|c|c|c|c|c|c|c|c|}" << std::endl;
+        out << "\\hline" << std::endl;
+        out << "Shape &Width(b)     &Depth(d)  &Area(A)   &CG($y_c$)    &A$d$     &$I_o$      &$Ay_c^2$ &I      \\\\" << std::endl;
+        out << "      &in           &in        &$in^2$    &in           &$in^3$     &$in^4$   &$in^4$   &$in^4$  \\\\" << std::endl;
+        out << "\\hline" << std::endl;
+        out << std::fixed << std::setprecision(2);
+
+
+    /*
+    double w_tf,w_web,w_bf,w_slab;
+    double d_tf,d_web,d_bf,d_slab;
+    double A_tf,A_web,A_bf,A_slab,A_rf;
+    double y_tf,y_web,y_bf,y_slab,y_rf;
+    double Ay_tf,Ay_web,Ay_bf,Ay_slab,Ay_rf;
+    double Io_tf,Io_web,Io_bf,Io_slab,Io_rf;
+    double I_tf,I_web,I_bf,I_slab,I_rf;
+    double m;
+    double Ay,A,y,Io,I;
+    */
+
+
+    out << "Top Flange "
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).w_tf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).d_tf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).A_tf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).y_tf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).Ay_tf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).Io_tf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).Ay2_tf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).I_tf
+                    << "\\\\ \\hline" << std::endl;
+
+    out << "Web "
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).w_web
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).d_web
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).A_web
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).y_web
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).Ay_web
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).Io_web
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).Ay2_web
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).I_web
+                    << "\\\\ \\hline" << std::endl;
+
+    out << "Bottom Flange "
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).w_bf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).d_bf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).A_bf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).y_bf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).Ay_bf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).Io_bf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).Ay2_bf
+                    << " &" << i.getProperty(stage::NONCOMPOSITE).I_bf
+                    << "\\\\ \\hline" << std::endl;
+
+    out << " "
+                        << " &" << "-"
+                        << " &" << "-"
+                        << " &" << i.getProperty(stage::NONCOMPOSITE).A
+                        << " &" << i.getProperty(stage::NONCOMPOSITE).y
+                        << " &" << i.getProperty(stage::NONCOMPOSITE).Ay
+                        << " &" << i.getProperty(stage::NONCOMPOSITE).Io
+                        << " &" << i.getProperty(stage::NONCOMPOSITE).Ay2
+                        << " &" << i.getProperty(stage::NONCOMPOSITE).I
+                        << "\\\\ \\hline" << std::endl;
+
+
+
+
+        out << "\\end{tabular}" << std::endl;
+        out << "\\end{table}" << std::endl;
+
+    }
+
+
+
+
+
+
+
+
+    /*
     int num = 0;
     int s = 1;
     for (auto i:secProp)
@@ -175,5 +262,5 @@ void plate_girder_design::repSecProp()
 
     }
 
-
+*/
 }

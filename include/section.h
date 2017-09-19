@@ -24,10 +24,11 @@ struct sectionTable
     double A_tf,A_web,A_bf,A_slab,A_rf;
     double y_tf,y_web,y_bf,y_slab,y_rf;
     double Ay_tf,Ay_web,Ay_bf,Ay_slab,Ay_rf;
+    double Ay2_tf,Ay2_web,Ay2_bf,Ay2_slab,Ay2_rf;
     double Io_tf,Io_web,Io_bf,Io_slab,Io_rf;
     double I_tf,I_web,I_bf,I_slab,I_rf;
     double m;
-    double Ay,A,y,Io,I;
+    double Ay2,Ay,A,y,Io,I;
 
 };
 
@@ -144,10 +145,26 @@ class section
         double A_tf,A_web,A_bf,A_slab,A_rf;
         double y_tf,y_web,y_bf,y_slab,y_rf;
         double Ay_tf,Ay_web,Ay_bf,Ay_slab,Ay_rf;
+        double Ay2_tf,Ay2_web,Ay2_bf,Ay2_slab,Ay2_rf;
         double Io_tf,Io_web,Io_bf,Io_slab,Io_rf;
         double I_tf,I_web,I_bf,I_slab,I_rf;
-        double Ay,Io;
+        double Ay2,Ay,Io;
 
+        double temp = w_slab;
+
+         switch (_phase)
+         {
+         case stage::NONCOMPOSITE :
+            {w_slab = 0;break;}
+         case stage::COMPOSITE_SHORT :
+            {w_slab = w_slab/m;break;}
+         case stage::COMPOSITE_LONG :
+            {w_slab = w_slab/(3*m);break;}
+         case stage::COMPOSITE_REINFORCEMENT :
+            {w_slab = 0;break;}
+
+
+         }
         //Result
         sectionTable output;
 
@@ -155,15 +172,7 @@ class section
         A_tf = w_tf*d_tf;
         A_web = w_web*d_web;
         A_bf = w_bf*d_bf;
-
-        if (_phase == stage::NONCOMPOSITE)
-            A_slab = 0;
-        else if (_phase == stage::COMPOSITE_SHORT)
-            A_slab = w_slab*d_slab/m;
-        else if (_phase == stage::COMPOSITE_LONG)
-            A_slab = w_slab*d_slab/(3*m);
-        else
-            A_slab = 0;
+        A_slab = w_slab*d_slab/m;
 
         if (_phase != stage::COMPOSITE_REINFORCEMENT)
             A_rf = 0;
@@ -173,7 +182,7 @@ class section
         //CG of each component from bottom of the girder
         y_tf = d_bf + w_web + d_tf/2;
         y_web = d_bf + w_web/2;
-        y_bf = d_bf;
+        y_bf = d_bf/2;
         y_slab = d_bf + w_web + haunch + d_slab/2;
         y_rf = d_bf + w_web + haunch + (d_slab - 2.5 - 1.0)/2 + 1.0;
 
@@ -188,6 +197,7 @@ class section
         Io_tf = w_tf*d_tf*d_tf*d_tf/12;
         Io_web = d_web*w_web*w_web*w_web/12;
         Io_bf = w_bf*d_bf*d_bf*d_bf/12;
+        if (_phase == stage::NONCOMPOSITE)
         Io_slab = w_slab*d_slab*d_slab*d_slab/12;
         Io_rf = 0;
 
@@ -200,11 +210,21 @@ class section
         // Centroid of the section
         y = Ay/A;
 
-        I_slab = Io_slab + A_slab * std::pow(y-y_slab,2);
-        I_tf = Io_tf + A_tf* std::pow(y-y_tf,2);
-        I_web = Io_web + A_web* std::pow(y-y_web,2);
-        I_bf = Io_bf + A_bf* std::pow(y-y_bf,2);
-        I_rf = Io_rf + A_rf* std::pow(y-y_rf,2);
+
+        // Moment of Inertia with respect to CG
+        Ay2_slab = A_slab * std::pow(y-y_slab,2);
+        Ay2_tf =  A_tf* std::pow(y-y_tf,2);
+        Ay2_web = A_web* std::pow(y-y_web,2);
+        Ay2_bf = A_bf* std::pow(y-y_bf,2);
+        Ay2_rf =  A_rf* std::pow(y-y_rf,2);
+
+        Ay2 = Ay2_slab + Ay2_tf + Ay2_web + Ay2_bf + Ay2_rf;
+
+        I_slab = Io_slab + Ay2_slab ;
+        I_tf = Io_tf + Ay2_tf;
+        I_web = Io_web + Ay2_web;
+        I_bf = Io_bf + Ay2_bf;
+        I_rf = Io_rf + Ay2_rf;
 
         // Total Moment of Inertia of the section
 
@@ -223,34 +243,29 @@ class section
 
         output.Ay_slab = Ay_slab; output.Ay_rf = Ay_rf; output.Ay_tf = Ay_tf; output.Ay_web = Ay_web; output.Ay_bf = Ay_bf;
 
+        output.Ay2_slab = Ay2_slab; output.Ay2_rf = Ay2_rf; output.Ay2_tf = Ay2_tf; output.Ay2_web = Ay2_web; output.Ay2_bf = Ay2_bf;
+
         output.y_slab = y_slab; output.y_rf = y_rf; output.y_tf = y_tf; output.y_web = y_web; output.y_bf = y_bf;
 
         output.A_slab = A_slab; output.A_rf = A_rf; output.A_tf = A_tf; output.A_web = A_web; output.A_bf = A_bf;
 
-        if (_phase == stage::NONCOMPOSITE)
+        if (_phase == stage::NONCOMPOSITE || _phase == stage::COMPOSITE_REINFORCEMENT)
         {
                 output.w_slab = 0;
                 output.d_slab = 0;
         }
-        else if (_phase == stage::COMPOSITE_SHORT)
-        {
-             output.w_slab = w_slab/m;
-             output.d_slab = d_slab;
-        }
-        else if (_phase == stage::COMPOSITE_LONG)
-        {
-            output.w_slab = w_slab/(3*m);
-            output.d_slab = d_slab;
-        }
         else
         {
-            output.w_slab = 0;
-            output.d_slab = 0;
+             output.w_slab = w_slab;
+             output.d_slab = d_slab;
         }
 
         output.w_tf = w_tf; output.d_tf = d_tf;
         output.w_web = w_web; output.d_web = d_web;
         output.w_bf = w_bf; output.d_bf = d_bf;
+
+
+        w_slab = temp;
 
         return output;
     }

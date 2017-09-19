@@ -15,7 +15,7 @@
 	<iomanip>
 	<sstream>
 
-1505488658 c:\workahtd\sg41389\c++\pluto\include\plate_girder_design.h
+1505826767 c:\workahtd\sg41389\c++\pluto\include\plate_girder_design.h
 	<map>
 	<string>
 	<vector>
@@ -59,7 +59,7 @@
 1505159182 c:\workahtd\sg41389\c++\pluto\include\material.h
 	<vector>
 
-1505770094 c:\workahtd\sg41389\c++\pluto\include\section.h
+1505829918 c:\workahtd\sg41389\c++\pluto\include\section.h
 	<vector>
 	<cmath>
 
@@ -121,10 +121,10 @@
 1505159052 source:c:\workahtd\sg41389\c++\pluto\src\nodalresponse.cpp
 	"NodalResponse.h"
 
-1505765370 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_design.cpp
+1505828051 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_design.cpp
 	"plate_girder_design.h"
 
-1505237069 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_report.cpp
+1505828205 source:c:\workahtd\sg41389\c++\pluto\src\plate_girder_report.cpp
 	"plate_girder_design.h"
 	<cstdlib>
 
